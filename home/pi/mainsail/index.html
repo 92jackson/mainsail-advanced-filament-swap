@@ -1,0 +1,327 @@
+<!--
+########################################################
+########################################################
+########################################################
+Mainsail index.html mod for ADVANCED PAUSE by JACKSON 92
+########################################################
+########################################################
+########################################################
+
+########################################################
+https://www.reddit.com/r/klippers/comments/wr44hp/guided_m600_and_runout_for_mainsail_klipper/
+########################################################
+
+   WHAT IS THIS?:
+   This source is a replacement for Mainsail's index.html, it works along with
+   my adv_pause.cfg script and listens out messages involving run-outs and
+   filament changes to provide a GUI (pop up alerts).
+
+   TO INSTALL:
+   Override index.html in /home/pi/mainsail with this source.
+
+   You shouldn't have to edit any of this source, 
+   it should just work (provided that you have set up my adv_pause.cfg script correctly).
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Mainsail</title>
+        <meta name="description" content="Mainsail is the popular web interface for Klipper." />
+
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png" />
+        <meta name="theme-color" content="#121212" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content="Mainsail" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png" />
+        <link rel="mask-icon" href="img/icons/safari-pinned-tab.svg" color="#d51f26" />
+        <meta name="msapplication-TileImage" content="/img/icons/mstile-150x150.png" />
+        <meta name="msapplication-TileColor" content="#d51f26" />
+
+       
+		<script type="module" crossorigin src="/assets/index.f5d6ee22.js"></script>
+		<link rel="modulepreload" href="/assets/vendor.60e31b64.js">
+		<link rel="stylesheet" href="/assets/vendor.4ee48f24.css">
+		<link rel="stylesheet" href="/assets/index.f7b571b2.css">
+		<link rel="manifest" href="/manifest.webmanifest">
+		
+		
+		<!-- MOD START -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/arrive/2.4.1/arrive.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+		
+		<script type="text/javascript">
+			var currAlertId = 0;
+			var currPushMsg = 0;
+			var alertIdForceCloseTo = -1;
+			var alert = null;
+			var runningMacro = false;
+			
+			function isEmpty(value) {
+				return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
+			}
+			
+			function fireMacro(macro) {
+				if (runningMacro == false) {
+					var wait = ( macro.indexOf('!') == -1 ) ? true : false;
+					macro = macro.replace('!', '');
+					
+					var res = $.ajax({
+					  type: "GET",
+					  url: "/printer/gcode/script",
+					  data: { script: macro },
+					  cache: false,
+					  timeout: 300000
+					});
+					
+					runningMacro = true;
+					
+					if (alert != null) {
+						if (wait == false) {
+							alert.close();
+							alert = null;
+							runningMacro = false;
+						} else {
+							$('.jconfirm-box-container .jconfirm-buttons .btn.'+macro).append('<div class="lds-dual-ring spin"></div>');
+							$('.jconfirm-box-container .jconfirm-buttons .btn').prop('disabled', true);
+							
+							res.always(function( data ) {
+								$('.jconfirm-box-container .jconfirm-buttons .btn.'+macro+' .spin').remove();
+								$('.jconfirm-box-container .jconfirm-buttons .btn').prop('disabled', false);
+								runningMacro = false;
+							});
+						}
+					}
+				}
+			}
+			
+			$(this).arrive('.consoleTableRow .alert-usr-close', function() {
+				var newAlertCloseId = $(this).attr("alertid");
+
+				if (newAlertCloseId > 0 && newAlertCloseId > alertIdForceCloseTo) alertIdForceCloseTo = newAlertCloseId;
+				if (currAlertId <= alertIdForceCloseTo && alert != null) {
+					alert.close();
+					alert = null;
+					currPushMsg = 0;
+				}
+				
+				runningMacro = false;
+			});
+
+			$(this).arrive('.consoleTableRow .alert-usr', function() {
+				var $newAlert = $(this);
+				var newAlertId = parseInt($newAlert.attr("alertid"));
+				
+				if (newAlertId > currAlertId && alertIdForceCloseTo < newAlertId) {
+					runningMacro = false;	
+					currPushMsg = 0;
+
+					if (alert != null) {
+						alert.close();
+						alert = null;
+					}
+					currAlertId = newAlertId;
+					
+					var macros = "";
+					var numMacros = 0;
+					if (!isEmpty($newAlert.attr('macro'))) {
+						macros = $newAlert.attr("macro").split("::");
+						numMacros = macros.length;
+					}
+					var color = (!isEmpty($newAlert.attr('color'))) ? $newAlert.attr('color') : 'orange';
+
+					alert = $.alert({
+						title: $newAlert.children("h1").text(),
+						content: $newAlert.html(),
+						type: color,
+						typeAnimated: false,
+						closeIcon: true,
+						theme: 'material',
+						columnClass: 'medium',
+						buttons: {
+							close: {
+								text: 'Okay',
+								isHidden: (numMacros > 0) ? true : false,
+								btnClass: 'btn-'+color
+							}
+						},
+						onOpenBefore: function() {
+							if (numMacros > 0) {
+								var i;
+								for (i = 0; i < numMacros; ++i) {
+									$('.jconfirm-box-container .jconfirm-buttons').append(
+										'<button class="btn btn-'+color+' '+macros[i].replace('!', '')+'" onclick="fireMacro(\''+macros[i]+'\')">'+
+											macros[i].replace('_', ' ').replace('!', '')+
+										'</button>'
+									);
+								}
+								
+							}
+						},
+						onOpen: function() {
+							if ($(".consoleTableRow .soft-alert-usr[alertid='"+currAlertId+"']").length) {
+								pushMsg($(".consoleTableRow .soft-alert-usr[alertid='"+currAlertId+"']").first());
+							}
+						},
+					});
+					
+					//If alarm=true attr is set, fire an audible alarm
+					if (!isEmpty($newAlert.attr("alarm"))) {
+						const audio = new Audio("https://cdn.freesound.org/previews/205/205951_981397-lq.mp3");
+						audio.play();
+					}
+				}
+			});
+			
+			$(this).arrive('.consoleTableRow .soft-alert-usr', function() {
+				pushMsg($(this));
+			});
+			
+			function pushMsg(newMsg) {
+				if (alert != null) {
+					var pushId = parseInt(newMsg.attr("push"));
+					//console.log(newMsg.attr("alertid")+"-"+currAlertId+" "+pushId+"-"+currPushMsg);
+					
+					if (newMsg.attr("alertid") == currAlertId && pushId >= currPushMsg) {
+						$('.jconfirm-box-container .jconfirm-clear').html('<div class="push-msg"><span><b>&gt;&nbsp;</b> '+newMsg.text().replace('oC', '&#8451;')+'</span></div>');
+						$('.jconfirm-box-container .jconfirm-clear .push-msg').animate({height: "toggle", opacity: "toggle"}, 1000);
+						currPushMsg = pushId;
+					
+						if (!isEmpty(newMsg.attr("eta"))) {
+							$('.jconfirm-box-container .jconfirm-clear').append('<div class="progress_bar"><div tyle="background-color:'+$(".jconfirm-buttons button").first().css("background-color")+ '"></div></div>');
+							
+							window.setTimeout(function() {
+								$(".jconfirm-box-container .jconfirm-clear .progress_bar div").css({"width": "100%", "-webkit-transition": Math.ceil(newMsg.attr("eta"))+"s linear"});
+							}, 0);
+						}
+					}
+				}
+			}
+		</script>
+		<style>
+			.jconfirm-box-container {
+				margin: 0 auto;
+				font-family: Arial, Helvetica, sans-serif !important;
+			}
+			
+			.jconfirm-box-container .jconfirm-content-pane h1 {
+				display: none;
+			}
+			
+			.jconfirm-box-container .jconfirm-content-pane p, .jconfirm-box-container .jconfirm-content-pane li {
+				margin: 10px 10px 0 10px;
+			}
+			
+			.jconfirm-box-container .jconfirm-content-pane a {
+				background: #CDCDCD;
+				padding: 0 6px
+			}
+			
+			.jconfirm-box-container .jconfirm-content-pane li {
+				font-size: small;
+			}
+			
+			.jconfirm-box-container .jconfirm-buttons .btn {
+				padding: 10px 40px !important;
+			}
+			
+			.jconfirm-box-container .jconfirm-buttons .btn[disabled] {
+				background-color: #CDCDCD !important;
+				cursor: not-allowed;
+			}
+			
+			.jconfirm-box-container .jconfirm-clear .push-msg {
+				display: none;
+				width: 100%;
+				background: #000000;
+				color: #FFFFFF;
+				font-size: small;
+				font-family: Roboto Mono, monospace !important;
+			}
+			
+			.jconfirm-box-container .jconfirm-clear .push-msg span {
+				padding: 6px 12px;
+			}
+			
+			@keyframes cursor-blink {
+				0% {
+					opacity: 0;
+				}
+			}
+			
+			.jconfirm-box-container .jconfirm-clear .push-msg span {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+			}
+			.jconfirm-box-container .jconfirm-clear .push-msg span::after {
+				content: "";
+				width: 5px;
+				height: 20px;
+				background: #FFFFFF;
+				display: inline-block;
+				animation: cursor-blink 1.5s steps(2) infinite;
+			}
+
+			.lds-dual-ring {
+			  display: inline-block;
+			  width: 20px;
+			  height: 20px;
+			  margin: -3px 0;
+			  position: absolute
+			}
+			.lds-dual-ring:after {
+			  content: " ";
+			  display: block;
+			  width: 10px;
+			  height: 10px;
+			  margin: 8px;
+			  border-radius: 50%;
+			  border: 6px solid #fff;
+			  border-color: #fff transparent #fff transparent;
+			  animation: lds-dual-ring 1.2s linear infinite;
+			}
+			@keyframes lds-dual-ring {
+			  0% {
+				transform: rotate(0deg);
+			  }
+			  100% {
+				transform: rotate(360deg);
+			  }
+			}
+			
+			.progress_bar {
+				width: 100%;
+				height: 20px;
+				background: #CDCDCD;
+				//position: absolute;
+				//bottom: 0;
+				//right: 0;
+				margin-top: 10px
+			}
+			.progress_bar div {
+				width: 0px;
+				height: 20px;
+				background-color: #333;
+			}
+		</style>
+       	<!-- MOD END -->
+	</head>
+    <body>
+        <noscript>
+            <strong>
+                We're sorry but Mainsail doesn't work properly without JavaScript enabled. Please enable it to continue.
+            </strong>
+        </noscript>
+		
+		
+        <div id="app"></div>
+    </body>
+</html>
