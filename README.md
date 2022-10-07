@@ -13,6 +13,7 @@ STEP 1: Save "adv_pause.cfg" in your config folder (i.e. /config/adv_pause.cfg)
 STEP 2: Include it in your printer.cfg (i.e [include adv_pause.cfg])
 STEP 3: Override your original index.html in /home/pi/mainsail
 OPTIONAL: Tweak any of the default values in [ADVPAUSE_CFG] as required
+OPTIONAL: Point your 'runout_gcode' to 'RUN_OUT' in your printer.cfg
 ```
     
 ## Screenshots
