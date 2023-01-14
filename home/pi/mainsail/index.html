@@ -11,40 +11,39 @@ Mainsail index.html mod for ADVANCED PAUSE by JACKSON 92
 Github: https://github.com/92jackson/mainsail-guided-m600/
 Discord: https://discord.gg/e3eXGTJbjx
 ########################################################
+	WHAT IS THIS?:
+	This source is a replacement for Mainsail's index.html, it works along with
+	my adv_pause.cfg script and listens out messages involving run-outs and
+	filament changes to provide a GUI (pop up alerts).
 
-   WHAT IS THIS?:
-   This source is a replacement for Mainsail's index.html, it works along with
-   my adv_pause.cfg script and listens out messages involving run-outs and
-   filament changes to provide a GUI (pop up alerts).
+	TO INSTALL:
+	Override index.html in /home/pi/mainsail with this source.
 
-   TO INSTALL:
-   Override index.html in /home/pi/mainsail with this source.
-
-   You shouldn't have to edit any of this source, 
-   it should just work (provided that you have set up my adv_pause.cfg script correctly).
+	You shouldn't have to edit any of this source, 
+	it should just work (provided that you have set up my adv_pause.cfg script correctly).
 -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-        <title>Mainsail</title>
-        <meta name="description" content="Mainsail is the popular web interface for Klipper." />
+		<head>
+				<meta charset="utf-8" />
+				<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+				<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+				<title>Mainsail</title>
+				<meta name="description" content="Mainsail is the popular web interface for Klipper." />
 
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png" />
-        <meta name="theme-color" content="#121212" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="apple-mobile-web-app-title" content="Mainsail" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png" />
-        <link rel="mask-icon" href="img/icons/safari-pinned-tab.svg" color="#d51f26" />
-        <meta name="msapplication-TileImage" content="/img/icons/mstile-150x150.png" />
-        <meta name="msapplication-TileColor" content="#d51f26" />
+				<link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png" />
+				<link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png" />
+				<meta name="theme-color" content="#121212" />
+				<meta name="mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+				<meta name="apple-mobile-web-app-title" content="Mainsail" />
+				<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png" />
+				<link rel="mask-icon" href="img/icons/safari-pinned-tab.svg" color="#d51f26" />
+				<meta name="msapplication-TileImage" content="/img/icons/mstile-150x150.png" />
+				<meta name="msapplication-TileColor" content="#d51f26" />
 
-        
+				
 		<script type="module" crossorigin src="/assets/index.37dba9ad.js"></script>
 		<link rel="stylesheet" href="/assets/index.65709a8d.css">
 		<link rel="manifest" href="/manifest.webmanifest">
@@ -72,11 +71,11 @@ Discord: https://discord.gg/e3eXGTJbjx
 					macro = macro.replace('!', '');
 					
 					var res = $.ajax({
-					  type: "GET",
-					  url: "/printer/gcode/script",
-					  data: { script: macro },
-					  cache: false,
-					  timeout: 300000
+						type: "GET",
+						url: "/printer/gcode/script",
+						data: { script: macro },
+						cache: false,
+						timeout: 300000
 					});
 					
 					runningMacro = true;
@@ -269,30 +268,30 @@ Discord: https://discord.gg/e3eXGTJbjx
 			}
 
 			.lds-dual-ring {
-			  display: inline-block;
-			  width: 20px;
-			  height: 20px;
-			  margin: -3px 0;
-			  position: absolute
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				margin: -3px 0;
+				position: absolute
 			}
 			.lds-dual-ring:after {
-			  content: " ";
-			  display: block;
-			  width: 10px;
-			  height: 10px;
-			  margin: 8px;
-			  border-radius: 50%;
-			  border: 6px solid #fff;
-			  border-color: #fff transparent #fff transparent;
-			  animation: lds-dual-ring 1.2s linear infinite;
+				content: " ";
+				display: block;
+				width: 10px;
+				height: 10px;
+				margin: 8px;
+				border-radius: 50%;
+				border: 6px solid #fff;
+				border-color: #fff transparent #fff transparent;
+				animation: lds-dual-ring 1.2s linear infinite;
 			}
 			@keyframes lds-dual-ring {
-			  0% {
+				0% {
 				transform: rotate(0deg);
-			  }
-			  100% {
+				}
+				100% {
 				transform: rotate(360deg);
-			  }
+				}
 			}
 			
 			.progress_bar {
@@ -310,17 +309,17 @@ Discord: https://discord.gg/e3eXGTJbjx
 				background-color: #333;
 			}
 		</style>
-       	<!-- MOD END -->	
+		<!-- MOD END -->	
 	</head>
 	
-	
-    <body style="background-color: #121212">
-        <noscript>
-            <strong>
-                We're sorry but Mainsail doesn't work properly without JavaScript enabled. Please enable it to continue.
-            </strong>
-        </noscript>
-		
-        <div id="app"></div>
-    </body>
+
+	<body style="background-color: #121212">
+		<noscript>
+				<strong>
+					We're sorry but Mainsail doesn't work properly without JavaScript enabled. Please enable it to continue.
+				</strong>
+		</noscript>
+
+		<div id="app"></div>
+	</body>
 </html>
