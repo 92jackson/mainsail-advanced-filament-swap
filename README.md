@@ -4,7 +4,7 @@ Guided M600 filament changes for Mainsail.
 
 This is my advanced pause script for Mainsail (possibly also compatible with Fluids??). It allows for guided pop-up alerts on run-out and M600 events, with a fluid UI suitable for all screen sizes.
 
-This script is based on the Jay Lexx's MOM script for for OctoPrint.
+This script is inspired by Jay Lexx's MOM script for for OctoPrint.
 ## Installation
 
 
