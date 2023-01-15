@@ -12,6 +12,7 @@ STEP 2: Save adv_filament_swap.cfg in your config folder (i.e: home/pi/klipper_c
 STEP 3: Override index.html in /home/pi/mainsail with the one included with this script
 STEP 4: Include this script in your printer.cfg (i.e [include adv_filament_swap.cfg])
 OPTIONAL: Tweak any of the default values below in [ADVPAUSE_CFG] as required - from line #120
+OPTIONAL: Point your run-out pin to RUN_OUT in your printer.cfg
 ```
 
 ## Usage (example given for Cura)
