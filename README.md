@@ -7,6 +7,7 @@ This script is inspired by Jay Lexx's MOM script for for OctoPrint.
 
 ## Preview
 [YouTube](https://youtu.be/61uj0Wp03IY)
+[Screenshots](#screenshots)
 
 ## Installation
 
