@@ -4,6 +4,10 @@
 This is my advanced filament swap script for Mainsail (possibly also compatible with Fluids??). It allows for guided pop-up alerts on run-out and M600 events, with a fluid UI suitable for all screen sizes.
 
 This script is inspired by Jay Lexx's MOM script for for OctoPrint.
+
+## Preview
+[YouTube](https://youtu.be/61uj0Wp03IY)
+
 ## Installation
 
 ```bash
