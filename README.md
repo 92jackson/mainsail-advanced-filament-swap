@@ -1,10 +1,30 @@
-# Advanced Pause for Mainsail
+# Advanced Filament Swap for Mainsail
+## Guided M600 filament changes and filament run-outs for Mainsail.
 
-Guided M600 filament changes for Mainsail.
-
-This is my advanced pause script for Mainsail (possibly also compatible with Fluids??). It allows for guided pop-up alerts on run-out and M600 events, with a fluid UI suitable for all screen sizes.
+This is my advanced filament swap script for Mainsail (possibly also compatible with Fluids??). It allows for guided pop-up alerts on run-out and M600 events, with a fluid UI suitable for all screen sizes.
 
 This script is inspired by Jay Lexx's MOM script for for OctoPrint.
+## Installation
+
+```bash
+STEP 1: Connect to your printer via SFTP
+STEP 2: Save adv_filament_swap.cfg in your config folder (i.e: home/pi/klipper_config/)
+STEP 3: Override index.html in /home/pi/mainsail with the one included with this script
+STEP 4: Include this script in your printer.cfg (i.e [include adv_filament_swap.cfg])
+OPTIONAL: Tweak any of the default values below in [ADVPAUSE_CFG] as required - from line #120
+```
+
+## Usage (example given for Cura)
+```bash
+STEP 1) Extensions > Post Processing > Modify G-Code
+STEP 2) Add a script -> Filament Change
+STEP 3) Set "Layer" to the layer number you want the switch to occur
+STEP 4) Repeat Step 3 for however many changes you require (:
+
+N.B. You can also manaually send FILAMENT_SWAP in the console to trigger a filament swap.
+```
+
+
 ## Support
 For support, join my [Discord](https://discord.gg/e3eXGTJbjx).
 
@@ -12,17 +32,6 @@ Like to support my work or say thanks?
 
 [![paypal](https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=9QZ34DQCEPAGG)
 
-
-## Installation
-
-
-```bash
-STEP 1: Save "adv_pause.cfg" in your config folder (i.e. /config/adv_pause.cfg)
-STEP 2: Include it in your printer.cfg (i.e [include adv_pause.cfg])
-STEP 3: Override your original index.html in /home/pi/mainsail
-OPTIONAL: Tweak any of the default values in [ADVPAUSE_CFG] as required
-OPTIONAL: Point your 'runout_gcode' to 'RUN_OUT' in your printer.cfg
-```
     
 ## Screenshots
 
