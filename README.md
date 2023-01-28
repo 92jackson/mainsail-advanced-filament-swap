@@ -10,6 +10,9 @@ This script is inspired by Jay Lexx's MOM script for for OctoPrint.
 
 [Screenshots](#screenshots)
 
+## Changes
+Some people had issues with replacing their index.html with the modified version I provided. It appears that from time to time Mainsail update the source for it and if it then gets replaced with a mismatched version, it causes a blank screen. The new method instead requires the user to edit their own index.html and paste in a few extra lines (see installation instructions below).
+
 ## Installation
 ```bash
 STEP 1: Connect to your printer via SFTP
