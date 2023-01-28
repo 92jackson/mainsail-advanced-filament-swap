@@ -11,13 +11,22 @@ This script is inspired by Jay Lexx's MOM script for for OctoPrint.
 [Screenshots](#screenshots)
 
 ## Installation
-
 ```bash
 STEP 1: Connect to your printer via SFTP
 STEP 2: Save adv_filament_swap.cfg in your config folder (i.e: home/pi/klipper_config/)
-STEP 3: Override index.html in /home/pi/mainsail with the one included with this script (make a backup of your original!!!)
-STEP 4: Include this script in your printer.cfg (i.e [include adv_filament_swap.cfg])
-OPTIONAL: Tweak any of the default values below in [ADVPAUSE_CFG] as required (from line #120)
+STEP 3: Save alert-handler.js in /home/pi/mainsail
+STEP 4: Edit your index.html in /home/pi/mainsail and add the following before </head>
+
+	<!-- MOD START -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/arrive/2.4.1/arrive.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+		<script src="./alert-handler.js"></script>
+	<!-- MOD END -->
+
+STEP 5: Include this script in your printer.cfg (i.e [include adv_filament_swap.cfg])
+OPTIONAL: Tweak any of the default values in adv_filament_swap.cfg as required (from line #120)
 OPTIONAL: Point your run-out pin to RUN_OUT in your printer.cfg
 ```
 
