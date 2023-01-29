@@ -14,7 +14,7 @@ This script is inspired by Jay Lexx's MOM script for for OctoPrint.
 Some people had issues with replacing their index.html with the modified version I provided. It appears that from time to time Mainsail update the source for it and if it then gets replaced with a mismatched version, it causes a blank screen. The new method instead requires the user to edit their own index.html and paste in a few extra lines (see installation instructions below).
 
 ## Installation
-```bash
+```html
 STEP 1: Connect to your printer via SFTP
 STEP 2: Save adv_filament_swap.cfg in your config folder (i.e: home/pi/klipper_config/)
 STEP 3: Save alert-handler.js in /home/pi/mainsail
@@ -34,7 +34,7 @@ OPTIONAL: Point your run-out pin to RUN_OUT in your printer.cfg
 ```
 
 ## Usage (example given for Cura)
-```bash
+```
 STEP 1) Extensions > Post Processing > Modify G-Code
 STEP 2) Add a script -> Filament Change
 STEP 3) Set "Layer" to the layer number you want the switch to occur
