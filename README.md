@@ -47,10 +47,6 @@ N.B. You can also manaually send FILAMENT_SWAP in the console to trigger a filam
 ## Support
 For support, join my [Discord](https://discord.gg/e3eXGTJbjx).
 
-Like to support my work or say thanks?
-
-[![paypal](https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=9QZ34DQCEPAGG)
-
     
 ## Screenshots
 
