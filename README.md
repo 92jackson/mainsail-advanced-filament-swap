@@ -4,6 +4,8 @@ This repository is no longer maintained. Use the replacement project:
 
 ## **[Advanced-Filament-Swap](https://github.com/92jackson/Advanced-Filament-Swap)** for Moonraker printers (Mainsail/Fluidd)
 
+<br><br><br>
+<hr>
 
 # Advanced Filament Swap for Mainsail
 ## Guided M600 filament changes and filament run-outs for Mainsail.
@@ -72,6 +74,7 @@ M600:
 Fluid UI for all screen sizes:
 
 ![Mobile](https://preview.redd.it/0ojee3540di91.png?width=720&format=png&auto=webp&s=5a7882473d0d381a4643e206303d2f329ade0219)
+
 
 
 
